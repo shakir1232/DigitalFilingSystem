@@ -1,0 +1,146 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="~/" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>D</b>FS</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg" style="font-size:12px"><img src="~/Content/navy.png" height="50" width="40" />Digital Filing System (DNT)</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+
+                            @if (Request.IsAuthenticated)
+                            {
+                                string username = User.Identity.GetUserName();
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                                    <span class="hidden-xs">@username</span>
+                                </a>
+                            }
+
+                            <ul class="dropdown-menu">
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="p-md-5 col-md-4">
+                                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat"><i class="fa fa-sign-out" aria-hidden="true">Sign out</i></a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">MAIN NAVIGATION</li>
+                    @if (User.IsInRole(DigitalFilingSystem.Enums.Roles.Admin) || User.IsInRole(DigitalFilingSystem.Enums.Roles.Dashboard))
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? (ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "") : "")">
+                            <a href="/">
+                                <i class="glyphicon glyphicon-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole(DigitalFilingSystem.Enums.Roles.Admin) || User.IsInRole(DigitalFilingSystem.Enums.Roles.Upload))
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Upload" ? (ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "") : "")">
+                            <a href="/Home/Upload">
+                                <i class="glyphicon glyphicon-upload"></i> <span>Upload</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole(DigitalFilingSystem.Enums.Roles.Admin) || User.IsInRole(DigitalFilingSystem.Enums.Roles.Search))
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Search" ? (ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "") : "")">
+                            <a href="/Home/Search">
+                                <i class="glyphicon glyphicon-search" aria-hidden="true"></i> <span>Search</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole(DigitalFilingSystem.Enums.Roles.Admin))
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ManageRole" ? (ViewContext.RouteData.Values["Controller"].ToString() == "Account" ? "active" : "") : "")">
+                            <a href="/Account/ManageRole">
+                                <i class="glyphicon glyphicon-tasks" aria-hidden="true"></i> <span>Manage Role</span>
+                            </a>
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Register" ? (ViewContext.RouteData.Values["Controller"].ToString() == "Account" ? "active" : "") : "")">
+                            <a href="/Account/Register">
+                                <i class="glyphicon glyphicon-user"></i> <span>Register New User</span>
+                            </a>
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "UploadDocumentFiles" ? (ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "") : "")">
+                            <a href="/Home/UploadDocumentFiles">
+                                <i class="glyphicon glyphicon-paperclip"></i> <span>Attachment</span>
+                            </a>
+                        </li>
+                    }
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ResetPassword" ? (ViewContext.RouteData.Values["Controller"].ToString() == "Account" ? "active" : "") : "")">
+                        <a href="/Account/ResetPassword">
+                            <i class="glyphicon glyphicon-cog"></i> <span>Reset Password</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; @DateTime.Now.Year <a href="#">Creative Carnation</a>.</strong> All rights
+            reserved.
+        </footer>
+        <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @RenderSection("styles", required: false)
+</body>
+</html>

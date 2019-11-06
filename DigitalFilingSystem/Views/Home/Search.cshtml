@@ -1,0 +1,821 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+
+    bool isAllowed = (User.IsInRole(DigitalFilingSystem.Enums.Roles.Edit) || User.IsInRole(DigitalFilingSystem.Enums.Roles.Edit));
+}
+
+@section styles{
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/Switcher.css" rel="stylesheet" />
+    <link href="~/Content/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/iziModal.css" rel="stylesheet" />
+    <link href="~/Content/updatestyle.css" rel="stylesheet" />
+}
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 mrg-top-10">
+
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Search Document</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" id="image-search">
+                        <div class="box-body">
+                            <div class="form-group clearfix" id="letter-info">
+                                <div class="col-xs-12 panel panel-primary">
+                                    <h4>Letter/Minute Number</h4>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">Ministry/Division</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="division-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="division-2" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">Department</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="department-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="department-2" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">GO code</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="go-code-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="go-code-2" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="go-code-3" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="go-code-4" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">Branch/Unit code</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="desk-code-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="desk-code-2" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="desk-code-3" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">Subject code</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="subject-code-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="subject-code-2" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">File code</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="file-code-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="file-code-2" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="file-code-3" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">Year</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="file-open-year-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="file-open-year-2" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                    <div class="cupple-input-wrap">
+                                        <label class="w-100" for="division-code">Out word No</label>
+                                        <div class="cupple-inputs">
+                                            <input class="form-control mini-box-input" id="letter-no-1" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="letter-no-2" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="letter-no-3" maxlength="1" type="text" placeholder="0" />
+                                            <input class="form-control mini-box-input" id="letter-no-4" maxlength="1" type="text" placeholder="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group clearfix">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="col-md-12 p-0">
+                                            <label for="informatted-letter-no">Unstructured letter/minute No</label>
+                                            <label>
+                                                <input type="checkbox" name="foo" id="informatted-letter" />
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12 p-0">
+                                            <input type="text" class="form-control" id="informatted-letter-no" placeholder="Unstructured letter/minute No">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group clearfix">
+                                            <div class="col-md-12 p-0">
+                                                <label for="letter-subject">Keyword/Subject</label>
+                                            </div>
+                                            <div class="col-md-12 p-0">
+                                                <input type="text" class="form-control" id="letter-keyword" placeholder="Keyword">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group clearfix">
+                                <div class="col-xs-12">
+                                    <a href="#adFilter" onclick="setAdvanceFilter()" data-toggle="collapse"><span class="glyphicon glyphicon glyphicon-filter"></span> Advance filter</a>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix collapse" id="adFilter">
+                                <div class="col-xs-12 well">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Ministry/Division: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-division-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-division-2" maxlength="1" type="text" placeholder="0" />
+                                                    <span style="margin: 7px;" data-toggle="tooltip" title="Click here to show detail"><span class="glyphicon glyphicon glyphicon-info-sign" onclick="showDivision()"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Department: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-department-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-department-2" maxlength="1" type="text" placeholder="0" />
+                                                    <span style="margin: 7px;" data-toggle="tooltip" title="Click here to show detail"><span class="glyphicon glyphicon glyphicon-info-sign" onclick="showDepartment()"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Subject Code: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" maxlength="1" id="adv-subject-code-1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" maxlength="1" id="adv-subject-code-2" type="text" placeholder="0" />
+                                                    <span style="margin: 7px;" data-toggle="tooltip" title="Click here to show detail"><span class="glyphicon glyphicon glyphicon-info-sign" onclick="showSubjectCode()"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Branch/Unit code: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-desk-code-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-desk-code-2" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-desk-code-3" maxlength="1" type="text" placeholder="0" />
+                                                    <span style="margin: 7px;" data-toggle="tooltip" title="Click here to show detail"><span class="glyphicon glyphicon glyphicon-info-sign" onclick="showBranchCode()"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>File Code: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-file-code-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-file-code-2" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-file-code-3" maxlength="1" type="text" placeholder="0" />
+                                                    <span style="margin: 7px;" data-adv-toggle="tooltip" title="Click here to show detail"><span class="glyphicon glyphicon glyphicon-info-sign" onclick="showFileCode()"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>GO code: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-go-code-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-go-code-2" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-go-code-3" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-go-code-4" maxlength="1" type="text" placeholder="0" />
+                                                     <span style="margin: 7px;" data-toggle="tooltip" title="Click here to show detail"><span class="glyphicon glyphicon glyphicon-info-sign" onclick="showGOCode()"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <hr />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Year: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-file-open-year-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-file-open-year-2" maxlength="1" type="text" placeholder="0" />
+                                                   
+                                               </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Outward No: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-letter-no-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-letter-no-2" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-letter-no-3" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-letter-no-4" maxlength="1" type="text" placeholder="0" />
+                                                    @* <span style="margin: 7px;" data-toggle="tooltip" title="Add your won tooltip text here"><span class="glyphicon glyphicon glyphicon-info-sign"></span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <hr />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <h5>OR</h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <hr />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Minute Year: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-minute-year-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-minute-year-2" maxlength="1" type="text" placeholder="0" /> 
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="cupple-input-wrap">
+                                                <label>Meeting minute: </label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="adv-meeting-minute-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-meeting-minute-2" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-meeting-minute-3" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="adv-meeting-minute-4" maxlength="1" type="text" placeholder="0" /> 
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Date: </label>
+                                            <input type="date" class="form-control" maxlength="1" id="adv-datepicker" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary btn-block btn-flat" onclick="searchImage()"> 
+                                            <i class="glyphicon glyphicon-search">Search</i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="reset" class="btn btn-warning btn-block btn-flat" value="Reset" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Search result</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+                        <table id="search" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Ministry/Division</th>
+                                    <th>Department</th>
+                                    <th>GO code</th>
+                                    <th>Branch/Unit code</th>
+                                    <th>Out word No</th>
+                                    <th>Uploaded</th>
+                                    <th>Subject</th>
+                                    <th>Type</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-body"></tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+       
+        <!-- <div id="show-modal" class="modal">  -->
+        <div id="show-modal" class="modal" data-modal="true" data-izimodal-transitionin="fadeInDown" data-izimodal-transitionout="bounceOutDown" data-title="Digital Filing System" data-width="800" data-height="500" data-izimodal-zindex="9999999" style="display: none;">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <!-- /<div class="box-header with-border">
+                <h3 class="box-title">Document View</h3>
+            </div>
+            .box-header -->
+                <!-- form start -->
+                <div id="image-index">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <strong>Letter No</strong>
+                            <div class="col-md-12" id="letter-no">
+                                <div class="col-md-1 mrg-b-5">
+                                    <span id="mdivision-code"></span>
+                                </div>
+                                <div class="col-md-1 mrg-b-5">
+                                    <span id="mdepartment-code"></span>
+                                </div>
+                                <div class="col-md-1 mrg-b-5">
+                                    <span id="mgo-code"></span>
+                                </div>
+                                <div class="col-md-2 mrg-b-5">
+                                    <span id="mdesk-code"></span>
+                                </div>
+                                <div class="col-md-1 mrg-b-5">
+                                    <span id="msubject-code"></span>
+                                </div>
+                                <div class="col-md-2 mrg-b-5">
+                                    <span id="mfile-code"></span>
+                                </div>
+                                <div class="col-md-2 mrg-b-5">
+                                    <span id="mfile-open-year"></span>
+                                </div>
+                                <div class="col-md-2 mrg-b-5">
+                                    <span id="mletter-no"></span>
+                                </div>
+                                <div class="col-md-2 mrg-b-5">
+                                    <span id="mmetting-minute"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <table class="table table-bordered">
+                                <!-- <tr>
+                                <td >Informatted Letter No</td>
+                                <td>: <span id="minformatted-letter-no"></span></td>
+                            </tr> -->
+                                <tr>
+                                    <td style="width: 150px">Subject</td>
+                                    <td>: <span id="mletter-subject"></span></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 150px">Keyword</td>
+                                    <td>: <span id="mletter-subject"></span></td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                        <div class="col-md-8 table" style="margin-top:10px">
+                            <table class="table table-bordered" id="image-table"></table>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+@section scripts {
+
+    <script src="~/Scripts/iziModal.js"></script>
+    <script>
+        var isLetterText = false;
+        function onChange() {
+            if ($('#is-minute').is(":checked")) {
+                isMeetingMinute = true;
+                $('#metting-minute').show();
+                $('#child-meeting-minute').hide();
+            } else {
+                isMeetingMinute = false;
+                $('#metting-minute').hide();
+                $('#child-meeting-minute').show();
+            }
+        }
+
+        var isAdvanceFilter = false;
+
+        function setAdvanceFilter() {
+            isAdvanceFilter = !isAdvanceFilter;
+        }
+
+        function checkNull(data) {
+            if (data) {
+                return data;
+            } else {
+                return '-';
+            }
+        }
+
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function disableOrEnable(id, option) {
+            var nodes = document.getElementById(id).getElementsByTagName('*');
+            for (var i = 0; i < nodes.length; i++) {
+                nodes[i].disabled = option;
+            }
+        }
+
+        function showDivision() {
+            window.open('../uploads/MinistryOrDivision.pdf');
+        }
+
+        function showDepartment() {
+            window.open('../uploads/Department.pdf');
+        }
+
+        function showSubjectCode() {
+            window.open('../uploads/SubjectCode.pdf');
+        }
+        function showBranchCode() {
+            window.open('../uploads/BrachOrUnitCode.pdf');
+        }
+        function showFileCode() {
+            window.open('../uploads/FileCode.pdf');
+        }
+        function showGOCode() {
+            window.open('../uploads/GOCode.pdf');
+        }
+
+        function showModal(data) {
+            $("#mletter-subject").text(checkNull(data.Subject));
+            $("#mletter-keyword").text(checkNull(data.Keyword));
+            $("#mdivision-code").text(checkNull(data.DivisonCode));
+            $("#mdepartment-code").text(checkNull(data.DepartmentCode));
+            $("#mgo-code").text(checkNull(data.GOCode));
+            $("#mdesk-code").text(checkNull(data.DeskCode));
+            $("#msubject-code").text(checkNull(data.SubjectCode));
+            $("#mfile-code").text(checkNull(data.FileCode));
+            $("#mfile-open-year").text(checkNull(data.FileOpenYear));
+            $("#mletter-no").text(checkNull(data.LetterNo));
+            $("#mmetting-minute").text(checkNull(data.MeetingMinute));
+            $("#minformatted-letter-no").val(checkNull(data.InformattedLetterNo));
+
+            if (data.Files) {
+                $('#image-table > tbody').remove();
+                $('#image-table').append('<tbody></tbody>');
+                var newRow = '';
+                for (var i = 0; i < data.Files.length; i++) {
+                    let img = data.Files[i];
+                    newRow += '<tr><td><img src="/uploads/file.png" height="90" width="120"  onclick=downloadFile("' + img.Id + '") /><td><td><span>' + img.Name + ' </span></td></tr>';
+                }
+                $('#image-table > tbody').append(newRow);
+            }
+
+            $("[data-modal='true']").iziModal('open');
+
+            //$("#show-modal").dialog({
+            //    width: 650
+            //});
+        }
+
+        function downloadFile(id) {
+
+            $.ajax({
+                url: "/Home/DownloadFile/" + id,
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    window.open('/Home/DownloadFile/' + id, '_blank');
+                    return false;
+                },
+                error: function (err) {
+                    console.log(err);
+                    swal({
+                        title: "Not found",
+                        text: 'Sorry, we are unable to find the document.',
+                        type: "error"
+                    });
+                }
+            });
+
+        }
+
+        function showDocument(data) {
+
+            $('body').addClass('loading');
+             $.ajax({
+                 url: "/Home/GetImageIndexById/" + data,
+                type: "GET",
+                contentType: "application/json",
+                 success: function (response) {
+                     $('body').removeClass('loading');
+                     if (response && response.data) {
+                         showModal(response.data);
+                     }
+                },
+                 error: function (err) {
+                     $('body').removeClass('loading');
+                     console.log(err);
+                        swal({
+                            title: "Failed",
+                            text: err,
+                            type: "error"
+                        });
+                }
+                });
+        }
+
+        function editDocument(data) {
+            window.location.href = "/Home/Upload?opt=update&indexid=" + data;
+        }
+        203
+
+        function stringToBoolean(string) {
+            switch (string.toLowerCase().trim()) {
+                case "true": case "yes": case "1": return true;
+                case "false": case "no": case "0": case null: return false;
+                default: return Boolean(string);
+            }
+        }
+
+        function generateGrid(data) {
+            $('#search > tbody').remove();
+            $('#search').append('<tbody></tbody>');
+
+            var allowedEdit = stringToBoolean("@isAllowed".toLocaleLowerCase());
+          
+            var newRows = '';
+            for (var i = 0; i < data.length; i++) {
+                var row = data[i];
+                var nowDate = new Date(parseInt(row.UploadedDate.substr(6)));
+                if (allowedEdit) {
+                    newRows += '<tr><td>' + checkNull(row.DivisonCode) +
+                        ' </td><td> ' + checkNull(row.DepartmentCode) +
+                        ' </td > <td> ' + checkNull(row.GOCode) +
+                        ' </td > <td> ' + checkNull(row.DeskCode) +
+                        ' </td > <td> ' + checkNull(row.LetterNo) +
+                        ' </td> <td> ' + nowDate.getDate() + '-' + nowDate.getMonth() + '-' + nowDate.getFullYear() +
+                        ' </td> <td> ' + checkNull(row.Subject) +
+                        ' </td> <td> ' + checkNull(row.FileType) +
+                        '</td> <td>  <button class="btn btn-info" onclick=showDocument("' + row.IndexId + '")> <i class="glyphicon glyphicon-eye-open"></i>  </button> ' +
+                        '<button class="btn btn-warning" onclick=editDocument("' + row.IndexId + '")> <i class="glyphicon glyphicon-pencil"></i> </button>' +
+                        ' </td></th > ';
+                } else {
+                    newRows += '<tr><td>' + checkNull(row.DivisonCode) +
+                        ' </td><td> ' + checkNull(row.DepartmentCode) +
+                        ' </td > <td> ' + checkNull(row.GOCode) +
+                        ' </td > <td> ' + checkNull(row.DeskCode) +
+                        ' </td > <td> ' + checkNull(row.LetterNo) +
+                        ' </td> <td> ' + nowDate.getDate() + '-' + nowDate.getMonth() + '-' + nowDate.getFullYear() +
+                        ' </td> <td> ' + checkNull(row.Subject) +
+                        ' </td> <td> ' + checkNull(row.FileType) +
+                        '</td> <td>  <button class="btn btn-info" onclick=showDocument("' + row.IndexId + '")> <i class="glyphicon glyphicon-eye-open"></i>  </button> ' +                       
+                        ' </td></th > ';
+                }
+            }
+            $('#search  tbody').append(newRows);
+
+            if ($.fn.dataTable.isDataTable('#search')) {
+                table = $('#search').DataTable();
+            }
+            else {
+               table = $('#search').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false
+                });
+            }
+
+            
+        }
+
+        function filterNormally() {
+            var searchModel = {
+                keyword: $("#letter-keyword").val(),
+                divisonCode: $("#division-1").val() + '' + $("#division-2").val(),
+                departmentCode: $("#department-1").val() + $("#department-2").val(),
+                gOCode: $("#go-code-1").val() + '' + $("#go-code-2").val() + '' + $("#go-code-3").val() + '' + $("#go-code-4").val(),
+                deskCode: $("#desk-code-1").val() + '' + $("#desk-code-2").val() + '' + $("#desk-code-3").val(),
+                subjectCode: $("#subject-code-1").val() + '' + $("#subject-code-2").val(),
+                fileCode: $("#file-code-1").val() + '' + $("#file-code-2").val() + '' + $("#file-code-3").val(),
+                fileOpenYear: $("#file-open-year-1").val() + '' + $("#file-open-year-2").val(),
+                letterNo: $("#letter-no-1").val() + '' + $("#letter-no-2").val() + '' + $("#letter-no-3").val() + '' + $("#letter-no-4").val(),
+                informattedLetterNo: $("#informatted-letter-no").val(),
+                isInformattedLetterNo: isLetterText,
+            };
+            $('body').addClass('loading');
+                $.ajax({
+                url: "@Url.Action("SearchImage", "Home")",
+                type: "POST",
+                contentType: "application/json",
+                    data: JSON.stringify({ search: searchModel }),
+                    success: function (response) {
+                        $('body').removeClass('loading');
+                        generateGrid(response.data);
+                    $('#image-search').trigger('reset');
+                    isLetterText = false;
+                        $("#child-meeting-minute").show();
+                        setAutoFill();
+                },
+                    error: function (err) {
+                        $('body').removeClass('loading');
+                        swal({
+                            title: "Not found",
+                            text: 'No data found.',
+                            type: "error"
+                        });
+                }
+                });
+        }
+
+
+        function filterInAdvance() {
+
+            var searchModel = {
+                keyword: $("#adv-keyword").val(),
+                divisonCode: $("#adv-division-1").val() + '' + $("#adv-division-2").val(),
+                departmentCode: $("#adv-department-1").val() + $("#adv-department-2").val(),
+                deskCode: $("#adv-desk-code-1").val() + '' + $("#adv-desk-code-2").val() + '' + $("#adv-desk-code-3").val(),
+                subjectCode: $("#adv-subject-code-1").val() + '' + $("#adv-subject-code-2").val(),
+                fileCode: $("#adv-file-code-1").val() + '' + $("#adv-file-code-2").val() + '' + $("#adv-file-code-3").val(),
+                fileOpenYear: $("#adv-file-open-year-1").val() + '' + $("#adv-file-open-year-2").val(),
+                letterNo: $("#adv-letter-no-1").val() + '' + $("#adv-letter-no-2").val() + '' + $("#adv-letter-no-3").val() + '' + $("#adv-letter-no-4").val(),
+                meetingMinute: $('#adv-meeting-minute-1').val() + '' + $('#adv-meeting-minute-2').val() + '' + $('#adv-meeting-minute-3').val() + '' + $('#adv-meeting-minute-4').val(),
+                minuteYear: $('#adv-minute-year-1').val() + '' + $('#adv-minute-year-2').val(),
+                uploadedDate: $('#adv-datepicker').val(),
+                gOCode: $('#adv-go-code-1').val() + '' + $('#adv-go-code-2').val() + '' + $('#adv-go-code-3').val() + '' + $('#adv-go-code-4').val()
+            };
+            $('body').addClass('loading');
+                $.ajax({
+                url: "@Url.Action("SearchInAdvance", "Home")",
+                type: "POST",
+                contentType: "application/json",
+                    data: JSON.stringify({ search: searchModel }),
+                    success: function (response) {
+                        $('body').removeClass('loading');
+                        if (response.type == "success") {
+                            generateGrid(response.data);
+                            $('#image-search').trigger('reset');
+                            isLetterText = false;
+                            $("#child-meeting-minute").show();
+                            setAutoFill();
+                        } else {
+                            swal({
+                                title: "Warning!",
+                                text: response.message,
+                                type: "warning"
+                            });
+                        }
+                },
+                    error: function (err) {
+                        $('body').removeClass('loading');
+                        swal({
+                            title: "Not found",
+                            text: err.statusText,
+                            type: "error"
+                        });
+                }
+                });
+        }
+
+        function searchImage() {
+            if ($('#informatted-letter').is(":checked")) {
+                isLetterText = true;
+               //$("#informatted-letter-no").show();
+            } else {
+                isLetterText = false;
+                //$("#informatted-letter-no").hide();
+            }
+
+            if ($('#is-minute').is(":checked")) {
+                isMeetingMinute = true;
+            } else {
+                isMeetingMinute = false;
+            }
+            if (!isAdvanceFilter) {
+                filterNormally();
+            } else {
+                filterInAdvance();
+            }
+
+        }
+
+
+        function setLetterNo(data) {
+            $("#division-1").val(data.DivisonCode[0]);
+            $("#division-2").val(data.DivisonCode[1]);
+
+            $("#department-1").val(data.DepartmentCode[0]);
+            $("#department-2").val(data.DepartmentCode[1]);
+
+            $("#go-code-1").val(data.GOCode[0]);
+            $("#go-code-2").val(data.GOCode[1]);
+            $("#go-code-3").val(data.GOCode[2]);
+            $("#go-code-4").val(data.GOCode[3]);
+
+            $("#desk-code-1").val(data.DeskCode[0]);
+            $("#desk-code-2").val(data.DeskCode[1]);
+            $("#desk-code-3").val(data.DeskCode[2]);
+
+            $("#subject-code-1").val(data.SubjectCode[0]);
+            $("#subject-code-2").val(data.SubjectCode[1]);
+
+            $("#file-code-1").val(data.FileCode[0]);
+            $("#file-code-2").val(data.FileCode[1]);
+            $("#file-code-3").val(data.FileCode[2]);
+
+            let fullYear = new Date().getFullYear().toString();
+            $("#file-open-year-1").val(fullYear[2]);
+            $("#file-open-year-2").val(fullYear[3]);
+        }
+        $('body').addClass('loading');
+        function setAutoFill() {
+            $.ajax({
+                url: "/Home/GetLastImageIndex",
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    $('body').removeClass('loading');
+                    if (response && response.data) {
+                        console.log(response.data);
+                        setLetterNo(response.data);
+                    }
+                },
+                error: function (err) {
+                    $('body').removeClass('loading');
+                    swal({
+                        title: "Failed",
+                        text: err.statusText,
+                        type: "error"
+                    });
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+
+
+            $('input[name=informatted-letter]').attr('checked', false);
+
+            document.getElementById("informatted-letter-no").disabled = true;
+            $('input[name=foo]').attr('checked', false);
+
+            $('#informatted-letter').click(function () {
+                if ($('#informatted-letter').is(":checked")) {
+                    isLetterText = true;
+                    //$("#informatted-letter-no").show();
+                    document.getElementById("informatted-letter-no").disabled = false;
+                    disableOrEnable('letter-info', true);
+                } else {
+                    isLetterText = false;
+                    //$("#informatted-letter-no").hide();
+                    document.getElementById("informatted-letter-no").disabled = true;
+                    disableOrEnable('letter-info', false);
+                }
+            });
+
+            setAutoFill();
+
+
+            $('.mini-box-input').on('keyup', function () {
+                if ($(this).val()) {
+                    var p = $(this).parents('.cupple-input-wrap');
+                    var len = p.find('.mini-box-input').length;
+                    if ($(this).index() == len-1 ) {
+                    	p.next('.cupple-input-wrap').find('input:first-child').select();
+                    }else {
+                    	$(this).next().select();
+                    }
+                }
+            });
+
+			$('#informatted-letter').click(function(e) {
+				if ($(this).is(':checked')) {
+					$('#letter-info .mini-box-input').each(function(index, el) {
+						$(this).val('');
+					});
+				}
+			});
+
+        });
+
+        $("[data-modal='true']").iziModal();
+
+    </script>
+}
+
+

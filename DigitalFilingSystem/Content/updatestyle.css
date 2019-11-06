@@ -1,0 +1,81 @@
+.p-0 {
+    padding: 0 !important;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.cupple-input-wrap {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 2px 10px 10px 0;
+}
+
+.cupple-inputs {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+    .cupple-inputs .form-control {
+        display: inline-block;
+        width: 40px;
+    }
+
+        .cupple-inputs .form-control:nth-of-type(1) {
+            border-radius: 5px 0 0 5px;
+        }
+
+        .cupple-inputs .form-control:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+.modal-progress {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8 ) url('/loading.gif') 50% 50% no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .modal-progress {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal-progress {
+    display: block;
+}
+
+.login-page-wrap {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .login-page-wrap .login-content {
+        width: 320px;
+        border: 3px solid #999;
+        border-radius: 10px;
+        box-shadow: 0px 10px 18px rgba(0,0,0,0.4);
+        padding-top: 20px;
+    }
+
+    .login-page-wrap h2 {
+        margin: 0;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .login-page-wrap input[type="submit"] {
+        display: block;
+        width: 100%;
+    }

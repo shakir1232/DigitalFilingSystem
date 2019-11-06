@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8f98aae25d2f475bbd5b44b4634320c9" Name="Diagram1">
+        <EntityTypeShape EntityType="DigitalFilingSystemDBModel.ImageIndex" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="DigitalFilingSystemDBModel.Image" Width="1.5" PointX="3" PointY="2.5" />
+        <AssociationConnector Association="DigitalFilingSystemDBModel.FK_ImageIndex_ImageIndex" />
+        <AssociationConnector Association="DigitalFilingSystemDBModel.FK_Images_ImageIndex" />
+        <EntityTypeShape EntityType="DigitalFilingSystemDBModel.AspNetRole" Width="1.5" PointX="5.375" PointY="2" />
+        <EntityTypeShape EntityType="DigitalFilingSystemDBModel.AspNetUser" Width="1.5" PointX="7.625" PointY="1" />
+        <AssociationConnector Association="DigitalFilingSystemDBModel.AspNetUserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

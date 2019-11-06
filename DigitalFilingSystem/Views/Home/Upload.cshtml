@@ -1,0 +1,796 @@
+﻿
+@{
+    ViewBag.Title = "Upload";
+}
+
+@section styles{
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/Switcher.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-FileUpload.css" rel="stylesheet" />
+    <link href="~/Content/updatestyle.css" rel="stylesheet" />
+}
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 mrg-top-10">
+
+            <!-- general form elements -->
+            <div class="box box-primary" id="upload-box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Upload Document</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" id="image-index">
+                    <div class="box-body">
+                        <div class="form-group clearfix">
+                            <label class="letter">Letter</label>
+                            <label class="form-switch">
+                                <input type="checkbox" onchange="onChange()" id="is-minute">
+                                <i></i>
+                                Meeting minute
+                            </label>
+                        </div>
+                        <div class="form-group clearfix" id="letter-info">
+                            <div class="col-xs-12 panel panel-primary">
+                                <h4>Letter Number</h4>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">Ministry/Division</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="division-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="division-2" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">Department</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="department-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="department-2" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">GO code</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="go-code-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="go-code-2" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="go-code-3" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="go-code-4" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">Branch/Unit code</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="desk-code-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="desk-code-2" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="desk-code-3" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">Subject code</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="subject-code-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="subject-code-2" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">File code</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="file-code-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="file-code-2" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="file-code-3" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">Year</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="file-open-year-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="file-open-year-2" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                                <div class="cupple-input-wrap">
+                                    <label class="w-100" for="division-code">Outward number</label>
+                                    <div class="cupple-inputs">
+                                        <input class="form-control mini-box-input" id="letter-no-1" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="letter-no-2" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="letter-no-3" maxlength="1" type="text" placeholder="0" />
+                                        <input class="form-control mini-box-input" id="letter-no-4" maxlength="1" type="text" placeholder="0" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row  form-group clearfix">
+                            <div class="col-md-12">
+                                <div id="show-hide-meeting">
+                                    <div class="col-md-1" style="width:2%">
+                                        <input type="checkbox" name="meeting" id="meeting" />
+                                    </div>
+                                    <div class="col-md-5" style="width:48%">
+                                        <div class="form-group clearfix" id="meeting-minute-block">
+                                            <div class="cupple-input-wrap">
+                                                <label class="w-100" for="division-code">Minute year</label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="minute-year-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="minute-year-2" maxlength="1" type="text" placeholder="0" />
+                                                </div>
+                                            </div>
+                                            <div class="cupple-input-wrap">
+                                                <label class="w-100" for="division-code">Meeting minute</label>
+                                                <div class="cupple-inputs">
+                                                    <input class="form-control mini-box-input" id="meeting-minute-1" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="meeting-minute-2" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="meeting-minute-3" maxlength="1" type="text" placeholder="0" />
+                                                    <input class="form-control mini-box-input" id="meeting-minute-4" maxlength="1" type="text" placeholder="0" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 p-0">
+                                            <label for="informatted-letter-no" id="lbl-unstructured-letter-no"></label>
+                                            <label>
+                                                <input type="checkbox" name="foo" id="informatted-letter" />
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12 p-0">
+                                            <input type="text" class="form-control" id="informatted-letter-no" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row form-group clearfix">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 p-0">
+                                            <label for="letter-subject">Subject</label>
+                                            <input type="text" class="form-control" id="letter-subject" placeholder="Subject">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-12 p-0">
+                                        <label for="letter-subject">Keyword</label>
+                                        <input type="text" class="form-control" id="letter-keyword" placeholder="Keyword">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row form-group clearfix">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group clearfix">
+                                        <div class="col-md-12 p-0">
+                                            <label for="datepicker">Date:</label>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="date" class="form-control pull-right" id="datepicker">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="col-md-12 p-0">
+                                        <label for="icondemo">Choose document</label>
+                                        <input type="file" id="icondemo" onchange="getBase64()" accept=".jpg, .png, .bmp, .pdf, .docx" />
+
+                                        <div class="col-md-6 col-md-offset-3" style="margin-top:10px">
+                                            <table class="table" id="image-table"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="col-md-offset-2 col-md-4">
+                            <button type="button" class="btn btn-info btn-flat btn-block" onclick="uploadImage()">Submit</button>
+
+                        </div>
+                        <div class="col-md-4">
+                            <input class="btn btn-warning btn-flat btn-block" value="Reset" type="reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-progress"></div>
+</section>
+
+
+@section scripts {
+    <script src="~/Scripts/bootstrap-filestyle.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/bootstrap-FileUpload.js"></script>
+    <script>
+        var image = '';
+        var lstImage = [];
+        var isMeetingMinute = false;
+        var isLetterText = false;
+        var lstFile = [];
+        $body = $("body");
+
+        $('#icondemo').filestyle({
+            iconName: 'glyphicon glyphicon-file',
+            buttonText: 'Select File',
+            buttonName: 'btn-primary'
+        });
+
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function renderImage() {
+            $('#image-table > tbody').remove();
+            $('#image-table').append('<tbody></tbody>');
+            var newRow = '';
+            for (var i = 0; i < lstImage.length; i++) {
+                let img = lstImage[i];
+                newRow += '<tr><td><img src="/Uploads/file.png" height="60" width="90" /></td><td> ' + img.name + '</td><td><input type="button" class="btn btn-danger" onclick=removeImage("' + img.id + '") value="Remove" ></td></tr>';
+            }
+            $('#image-table > tbody').append(newRow);
+        }
+
+        function getBase64() {
+            var files = document.getElementById('icondemo').files;
+            let file = null;
+            if (files.length > 0) {
+                file = files[0];
+
+                fileExtension = file.name.split('.').pop();
+                fileExtension = fileExtension.toLowerCase();
+                var fileSize = parseInt(file.size) / 1000;
+                fileSize = fileSize / 1000;
+                if (fileSize > 5) {
+                    $('#icondemo').val('');
+                    swal({
+                        title: "Warning!",
+                        text: 'File size should be less than 5 MB.',
+                        type: "warning"
+                    });
+                }
+                else if (fileExtension == "jpg" || fileExtension == "bmp" || fileExtension == "png" || fileExtension == "pdf" || fileExtension == "docx") {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function () {
+                        image = reader.result;
+                        let fileId = uuidv4();
+                        lstImage.push({ id: fileId, file: image, name: file.name });
+                        lstFile.push({ id: fileId, name: file.name, file: file });
+                        renderImage();
+                        $('#icondemo').val('');
+                    };
+                    reader.onerror = function (error) {
+                        console.log('Error: ', error);
+                    };
+
+                } else {
+                    $('#icondemo').val('');
+                    swal({
+                        title: "Warning!",
+                        text: 'Only .jpg, .png, .bmp .pdf, .docx file types are allowed.',
+                        type: "warning"
+                    });
+                }
+
+            }
+        }
+
+        function removeImage(id) {
+            $('body').addClass('loading');
+            $.ajax({
+                url: "/Home/DeleteFile/" + id,
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    $('body').removeClass('loading');
+                    let imageFile = lstFile.find(a => a.id == id);
+                    if (imageFile) {
+                        let index = lstFile.find(imageFile);
+                        if (index > -1) {
+                            lstFile.splice(index, 1);
+                        }
+                    }
+
+                    let img = lstImage.find(a => a.id == id);
+                    if (img) {
+                        let index = lstImage.indexOf(img);
+                        if (index > -1) {
+                            lstImage.splice(index, 1);
+                            renderImage();
+                        }
+                    }
+                },
+                error: function (err) {
+                    $('body').removeClass('loading');
+                    swal({
+                        title: "Failed",
+                        text: err.statusText,
+                        type: "error"
+                    });
+                }
+            });
+            return false;
+        }
+
+        function onChange() {
+            if ($('#is-minute').is(":checked")) {
+                isMeetingMinute = true;
+                $('#upload-box').css("background", "#80d3d3");
+                $('#show-hide-meeting').hide();
+                $('#lbl-unstructured-letter-no').text('Unstructured Minute No');
+            } else {
+                isMeetingMinute = false;
+                $('#upload-box').css("background", "#fff");
+                $('#show-hide-meeting').show();
+
+                $('#lbl-unstructured-letter-no').text('Unstructured Letter No');
+            }
+        }
+
+        function setUpdateFile(file){
+            $.ajax({
+                url: "/Home/GetFile/" + file.Id,
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response) {
+                        lstImage.push({ id: file.Id, file: response });
+                        renderImage();
+                    }
+                },
+                error: function (err) {
+                    swal({
+                        title: "Failed",
+                        text: err.statusText,
+                        type: "error"
+                    });
+                }
+            });
+        }
+
+        function setLetterNo(data, isEdit) {
+            $("#division-1").val(data.DivisonCode[0]);
+            $("#division-2").val(data.DivisonCode[1]);
+
+            $("#department-1").val(data.DepartmentCode[0]);
+            $("#department-2").val(data.DepartmentCode[1]);
+
+            $("#go-code-1").val(data.GOCode[0]);
+            $("#go-code-2").val(data.GOCode[1]);
+            $("#go-code-3").val(data.GOCode[2]);
+            $("#go-code-4").val(data.GOCode[3]);
+
+            $("#desk-code-1").val(data.DeskCode[0]);
+            $("#desk-code-2").val(data.DeskCode[1]);
+            $("#desk-code-3").val(data.DeskCode[2]);
+
+            $("#subject-code-1").val(data.SubjectCode[0]);
+            $("#subject-code-2").val(data.SubjectCode[1]);
+
+            $("#file-code-1").val(data.FileCode[0]);
+            $("#file-code-2").val(data.FileCode[1]);
+            $("#file-code-3").val(data.FileCode[2]);
+
+            let fullYear = new Date().getFullYear().toString();
+            $("#file-open-year-1").val(fullYear[2]);
+            $("#file-open-year-2").val(fullYear[3]);
+
+            if (isEdit) {
+                $("#letter-no-1").val(data.LetterNo[0]);
+                $("#letter-no-2").val(data.LetterNo[1]);
+                $("#letter-no-3").val(data.LetterNo[2]);
+                $("#letter-no-4").val(data.LetterNo[3]);
+
+                let minute = data.MinuteYear;
+                if (minute && minute.length == 2) {
+                    $("#minute-year-1").val(minute[0]);
+                    $("#minute-year-2").val(minute[1]);
+                }
+
+                if (data.MeetingMinute && data.MeetingMinute.length == 4) {
+                    $("#meeting-minute-1").val(data.MeetingMinute[0]);
+                    $("#meeting-minute-2").val(data.MeetingMinute[1]);
+                    $("#meeting-minute-3").val(data.MeetingMinute[2]);
+                    $("#meeting-minute-4").val(data.MeetingMinute[3]);
+                }
+
+
+                $('#informatted-letter-no').val(data.InformattedLetterNo);
+                if (data.InformattedLetterNo) {
+                    $('#informatted-letter').attr('checked', true);
+                }
+
+                $('#letter-subject').val(data.Subject);
+                $('#letter-keyword').val(data.Keyword);
+                var now = new Date(parseInt(data.UploadedDate.substr(6)));
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                $('#datepicker').val(today);
+
+                for (var i = 0; i < data.Files.length; i++) {
+                    let file = data.Files[i];
+                    lstImage.push({ id: file.Id, file: file.File , name: file.Name });
+                }
+                renderImage();
+
+            }
+            return false;
+        }
+
+        function setAutoFill() {
+            $.ajax({
+                url: "/Home/GetLastImageIndex",
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response && response.data) {
+                        console.log(response.data);
+                        setLetterNo(response.data, false);
+                    }
+                },
+                error: function (err) {
+                    swal({
+                        title: "Failed",
+                        text: err.statusText,
+                        type: "error"
+                    });
+                }
+            });
+        }
+
+        function uploadFiles(indexId) {
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            for (var i = 0; i < lstFile.length; i++) {
+                fileData.append(lstFile[i].name, lstFile[i].file);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('indexId', indexId);
+            $body.addClass('loading');
+            $.ajax({
+                url: '/Home/UploadFiles',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    $body.removeClass("loading");
+                    setAutoFill();
+                    swal({
+                        title: "Saved",
+                        text: result,
+                        type: "success"
+                    });
+                    lstImage = [];
+                    lstFile = [];
+                    renderImage();
+                    $('#image-index').trigger('reset');
+                    document.getElementById("test-image").src = ''
+                    $("#test-image").css("height", "0px");
+                    isLetterText = false;
+                    //$("#informatted-letter-no").hide();
+                    disableOrEnable('informatted-letter-no', true);
+                    disableOrEnable('child-meeting-minute', false);
+                },
+                error: function (err) {
+                    $body.removeClass("loading");
+                    swal({
+                        title: "Failed",
+                        text: err.statusText,
+                        type: "error"
+                    });
+                }
+            });
+        }
+
+
+        function uploadImage() {
+            // validation letter numbers
+            var reg = new RegExp(/^-?\d+$/);
+
+            var formError = false;
+
+            if (!($('#informatted-letter').is(':checked'))) {
+                $('#letter-info .mini-box-input').each(function () {
+                    if (!reg.test($(this).val())) {
+                        swal({
+                            title: "Warning!",
+                            text: 'Please Fill the letter numbers.',
+                            type: "warning"
+                        });
+                        formError = true;
+                    }
+                });
+            } else {
+                var inpVal = $('#informatted-letter-no').val();
+                if (!inpVal) {
+                    swal({
+                        title: "Warning!",
+                        text: 'Please Fill the unstructured letter No.',
+                        type: "warning"
+                    });
+                    formError = true;
+                }
+            }
+
+
+            if (formError) { return false; }
+
+            if (!($('#letter-subject').val() != '' || $('#letter-keyword').val() != '')) {
+                swal({
+                    title: "Error!",
+                    text: 'Input any one Subject or Keyword.',
+                    type: "warning"
+                });
+                formError = true;
+            }
+            if (formError) { return false; }
+
+            if (lstFile && lstFile.length > 0) {
+
+                var uploadModel = {
+                    subject: $("#letter-subject").val(),
+                    keyword: $("#letter-keyword").val(),
+                    divisonCode: $("#division-1").val() + '' + $("#division-2").val(),
+                    departmentCode: $("#department-1").val() + $("#department-2").val(),
+                    gOCode: $("#go-code-1").val() + '' + $("#go-code-2").val() + '' + $("#go-code-3").val() + '' + $("#go-code-4").val(),
+                    deskCode: $("#desk-code-1").val() + '' + $("#desk-code-2").val() + '' + $("#desk-code-3").val(),
+                    subjectCode: $("#subject-code-1").val() + '' + $("#subject-code-2").val(),
+                    fileCode: $("#file-code-1").val() + '' + $("#file-code-2").val() + '' + $("#file-code-3").val(),
+                    fileOpenYear: $("#file-open-year-1").val() + '' + $("#file-open-year-2").val(),
+                    letterNo: $("#letter-no-1").val() + '' + $("#letter-no-2").val() + '' + $("#letter-no-3").val() + '' + $("#letter-no-4").val(),
+                    minuteYear: $("#minute-year-1").val() + '' + $("#minute-year-2").val(),
+                    meetingMinute: $("#meeting-minute-1").val() + '' + $("#meeting-minute-2").val() + '' + $("#meeting-minute-3").val() + '' + $("#meeting-minute-4").val(),
+                    isMeetingMinute: isMeetingMinute,
+                    informattedLetterNo: $("#informatted-letter-no").val(),
+                    isInformattedLetterNo: isLetterText,
+                    uploadedDate: $('#datepicker').val(),
+                };
+
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams) {
+                    const opt = urlParams.get('opt');
+                    if (opt == 'update') {
+                         $body.addClass('loading');
+                        $.ajax({
+                            url: "@Url.Action("UpdateDocument", "Home")",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify({ upload: uploadModel }),
+                                success: function (response) {
+                                    $body.removeClass("loading");
+                                    uploadFiles(response);
+
+                            },
+                                error: function (err) {
+                                    $body.removeClass("loading");
+                                    swal({
+                                        title: "Failed",
+                                        text: err.statusText,
+                                        type: "error"
+                                    });
+                            }
+                        });
+                    }else {
+                        $body.addClass('loading');
+                        $.ajax({
+                            url: "@Url.Action("UploadImage", "Home")",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify({ upload: uploadModel }),
+                                success: function (response) {
+                                    $body.removeClass("loading");
+                                    if (response.type == 'success') {
+                                        uploadFiles(response.data);
+                                    } else {
+                                        swal({
+                                            title: "Failed",
+                                            text: response.message,
+                                            type: "error"
+                                        });
+                                    }
+
+                            },
+                                error: function (err) {
+                                    $body.removeClass("loading");
+                                    swal({
+                                        title: "Failed",
+                                        text: err.statusText,
+                                        type: "error"
+                                    });
+                            }
+                        });
+                    }
+                } else {
+                    $body.addClass('loading');
+                    $.ajax({
+                        url: "@Url.Action("UploadImage", "Home")",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ upload: uploadModel }),
+                            success: function (response) {
+                                $body.removeClass("loading");
+                                if (response.type == 'success') {
+                                    uploadFiles(response.data);
+                                } else {
+                                    swal({
+                                        title: "Failed",
+                                        text: response.message,
+                                        type: "error"
+                                    });
+                                }
+
+                        },
+                            error: function (err) {
+                                $body.removeClass("loading");
+                                swal({
+                                    title: "Failed",
+                                    text: err.statusText,
+                                    type: "error"
+                                });
+                        }
+                    });
+                }
+
+            }
+            else {
+                swal({
+                    title: "Warning!",
+                    text: 'Please select document.',
+                    type: "warning"
+                });
+            }
+        }
+
+        function setImageIndex(indexId) {
+            $body.addClass('loading');
+            $.ajax({
+                url: "/Home/GetImageIndexById/" + indexId,
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    $body.removeClass("loading");
+                    if (response && response.data) {
+                        setLetterNo(response.data, true);
+                    }
+                },
+                error: function (err) {
+                    $body.removeClass("loading");
+                        swal({
+                            title: "Failed",
+                            text: err.statusText,
+                            type: "error"
+                        });
+                }
+            });
+        }
+
+        function disableOrEnable(id, option) {
+            var nodes = document.getElementById(id).getElementsByTagName('*');
+            for (var i = 0; i < nodes.length; i++) {
+                nodes[i].disabled = option;
+            }
+        }
+
+        function clearMeetingMinute() {
+            $('#minute-year-1').val('');
+            $('#minute-year-2').val('');
+
+            $('#meeting-minute-1').val('');
+            $('#meeting-minute-2').val('');
+            $('#meeting-minute-3').val('');
+            $('#meeting-minute-4').val('');
+        }
+
+
+        //
+        //$(document).on({
+        //    ajaxStart: function () { $body.addClass("loading"); },
+        //    ajaxStop: function () { $body.removeClass("loading"); }
+        //});
+
+        $(document).ready(function () {
+
+            setAutoFill();
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            $('#datepicker').val(today);
+
+            $("#informatted-letter-no").val('');
+            //$("#informatted-letter-no").hide();
+            document.getElementById("informatted-letter-no").disabled = true;
+            $('input[name=foo]').attr('checked', false);
+
+            $('#informatted-letter').click(function () {
+                if ($('#informatted-letter').is(":checked")) {
+                    isLetterText = true;
+                    //$("#informatted-letter-no").show();
+                    document.getElementById("informatted-letter-no").disabled = false;
+                    disableOrEnable('letter-info', true);
+                } else {
+                    isLetterText = false;
+                    //$("#informatted-letter-no").hide();
+                    $("#informatted-letter-no").val('');
+                    document.getElementById("informatted-letter-no").disabled = true;
+                    disableOrEnable('letter-info', false);
+                }
+            });
+
+            $('input[name=meeting]').attr('checked', false);
+            disableOrEnable('meeting-minute-block', true);
+            $('#meeting').click(function () {
+                if ($('#meeting').is(":checked")) {
+                    disableOrEnable('meeting-minute-block', false);
+                } else {
+                    clearMeetingMinute();
+                    disableOrEnable('meeting-minute-block', true);
+                }
+            });
+
+
+            $('.mini-box-input').on('keyup', function () {
+                if ($(this).val()) {
+                    var p = $(this).parents('.cupple-input-wrap');
+                    var len = p.find('.mini-box-input').length;
+                    if ($(this).index() == len - 1) {
+                        p.next('.cupple-input-wrap').find('input:first-child').select();
+                    } else {
+                        $(this).next().select();
+                    }
+                }
+            });
+            $('#informatted-letter').click(function (e) {
+                if ($(this).is(':checked')) {
+                    $('#letter-info .mini-box-input').each(function (index, el) {
+                        $(this).val('');
+                    });
+                }
+            });
+
+            $('#lbl-unstructured-letter-no').text('Unstructured Letter No');
+
+            //$('#datepicker').datepicker({
+            //    autoclose: true,
+            //    dateFormat: 'dd/mm/yyyy'
+            //})
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams) {
+                const opt = urlParams.get('opt');
+                if (opt == 'update') {
+                    const indexId = urlParams.get('indexid');
+                    if (indexId) {
+                        setImageIndex(indexId);
+                    }
+                }
+            }
+        });
+
+
+    </script>
+}
+
+

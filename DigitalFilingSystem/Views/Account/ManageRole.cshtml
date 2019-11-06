@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "ManageRole";
+}
+
+@section styles{
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/Switcher.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-FileUpload.css" rel="stylesheet" />
+    <link href="~/Content/updatestyle.css" rel="stylesheet" />
+}
+    <section class="container-fluid">
+        @*<div class="row">
+            <div class=" col-md-8 col-md-offset-2 mrg-top-10">
+
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Role Mangement</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" id="document-upload">
+                        <div class="box-body">
+
+                            <div class="form-group clearfix">
+                                <div id="user-dropdown">
+                                </div>
+                            </div>
+                            <div class="form-group  clearfix">
+                                <div id="role-checkbox"></div>
+                            </div>
+
+                        </div>
+
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary btn-block btn-flat" onclick="submitRole()">
+                                            <i class="glyphicon glyphicon-upload">Upload</i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="reset" class="btn btn-warning btn-block btn-flat" value="Reset" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="row">
+            <div class=" col-md-10 col-md-offset-1 mrg-top-10">
+
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Role Mangement</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" id="document-upload">
+                        <div class="box-body">
+
+                            <table id="user-roles" class="table table-bordered table-hover"></table>
+                        </div>
+
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary btn-block btn-flat" onclick="saveUserRole()">
+                                            <i class="glyphicon glyphicon-upload"> Save</i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="reset" class="btn btn-warning btn-block btn-flat" value="Reset" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-progress"></div>
+    </section>
+
+
+@section scripts {
+    <script src="~/Scripts/sweetalert.min.js"></script> 
+    <script>
+
+        var $body = $('body');
+        var allUserRoles = null;
+
+        function submitRole(userRole) {
+             
+                $('body').addClass('loading');
+                $.ajax({
+                    url: "/Account/ManageRole",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ model: userRole }),
+                    success: function (data) {
+                        $('body').removeClass('loading');
+                        swal({
+                            title: "Info",
+                            text: "Save successful",
+                            type: "success"
+                        });
+                    },
+                    error: function (err) {
+                        $('body').removeClass('loading');
+                        swal({
+                            title: "Failed",
+                            text: err,
+                            type: "error"
+                        });
+                    }
+                });
+        }
+
+        function saveUserRole() {
+            console.log(allUserRoles);
+            var userRoles = [];
+            if (allUserRoles && allUserRoles.length > 0) {
+                for (var index in allUserRoles) {
+                    let user = allUserRoles[index];
+                    for (var i in user.Roles) {
+                        let role = user.Roles[i];
+                        let id = '#' + user.UserId + '_' + role.Name;
+                        
+                       //console.log($(id).is(':checked'));
+                        if ($(id).is(':checked')) {
+                            var ur = {
+                                userId: user.UserId,
+                                roleName: role.Name
+                            }
+                            userRoles.push(ur);
+                        }
+                    }
+                }
+
+                submitRole(userRoles);
+            }
+        }
+
+        function setUserDropdown() {
+            $('body').addClass('loading');
+            $.ajax({
+                url: "/Home/GetAllUser",
+                type: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    $('body').removeClass('loading');
+                    var s = $('<select id="username" class="form-control select2" style="width: 100%;" />');
+                    $('<option />', { value: '', text: '' }).appendTo(s);
+                    for (var val in data) {
+                        $('<option />', { value: data[val].Id, text: data[val].Email }).appendTo(s);
+                    }
+                    s.appendTo('#user-dropdown');
+                },
+                error: function (err) {
+                    $('body').removeClass('loading');
+                    swal({
+                        title: "Failed",
+                        text: err,
+                        type: "error"
+                    });
+                }
+            });
+        }
+
+        function generateTable(data) {
+            $('#user-roles > thead').remove();
+            $('#user-roles > tbody').remove();
+            allUserRoles = data.userRoles;
+            //Add thead par
+            let thead = '<thead> <tr> <th>User</th>';
+            for (var index in data.roles) {
+                let role = data.roles[index];
+                thead += '<th>' + role.Name + ' </th>';
+            }
+            thead += '</tr></thead>';
+            $('#user-roles').append(thead);
+
+            //Add tbody part
+            let tbody = '<tbody>';
+            for (var index in data.userRoles) {
+                let role = data.userRoles[index];
+                tbody += '<td>' + role.UserName + ' </td>';
+                for (var i in role.Roles) {
+                    let ur = role.Roles[i];
+                    if (ur.IsSelected) {
+                        tbody += '<td> <input type="checkbox" id="' + role.UserId + '_' + ur.Name + '" name="' + role.UserId + '_' + ur.Name + '" checked /> </td>';
+                    } else {
+                        tbody += '<td> <input type="checkbox" id="' + role.UserId + '_' + ur.Name + '" name="' + role.UserId + '_' + ur.Name + '" /> </td>';
+                    }
+                   
+                }
+                tbody += '</tr>';
+            }
+            tbody += '</tbody>';
+            $('#user-roles').append(tbody);
+        }
+
+        function generateUserRoles() {
+            $('body').addClass('loading');
+            $.ajax({
+                url: "/Account/GetUserRoles",
+                type: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    $('body').removeClass('loading');
+                    generateTable(data);
+                },
+                error: function (err) {
+                    $('body').removeClass('loading');
+                    swal({
+                        title: "Failed",
+                        text: err,
+                        type: "error"
+                    });
+                }
+            });
+        }
+
+        function setRolesCheckbox() {
+            $('body').addClass('loading');
+            $.ajax({
+                url: "/Account/GetAllRoles",
+                type: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    $('body').removeClass('loading');
+                    var s = '';
+                   
+                    for (var val in data) {
+                        s += '<input type="checkbox" id="' + data[val].Name + '" name="' + data[val].Name + '" /> <lable for="' + data[val].Name + '">' + data[val].Name + '</lable> <br />';
+                    }
+                    $('#role-checkbox').append(s);
+                },
+                error: function (err) {
+                    $('body').removeClass('loading');
+                    swal({
+                        title: "Failed",
+                        text: err,
+                        type: "error"
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function () {
+           // setUserDropdown();
+           // setRolesCheckbox();
+            generateUserRoles();
+        });
+
+    </script>
+}

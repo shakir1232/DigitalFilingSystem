@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "UploadDocumentFiles";
+}
+
+@section styles{
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/Switcher.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-FileUpload.css" rel="stylesheet" />
+    <link href="~/Content/updatestyle.css" rel="stylesheet" />
+}
+<section class="container-fluid">
+    <div class="row">
+        <div class=" col-md-8 col-md-offset-2 mrg-top-10">
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Search Document</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" id="document-upload">
+                    <div class="box-body">
+
+                        <div class="form-group clearfix" id="letter-info">
+                            <label for="file-type">Document type</label>
+                            <select id="file-type" class="form-control select2" style="width: 100%;">
+                                <option selected="selected" value=""></option>
+                                <option value="MinistryOrDivision"> Ministry Or Division</option>
+                                <option value="Department"> Department </option>
+                                <option value="GOCode"> GO Code </option>
+                                <option value="BrachOrUnitCode"> Brach Or Unit Code </option>
+                                <option value="FileCode"> File Code </option>
+                                <option value="SubjectCode"> Subject Code </option>
+                            </select>
+                        </div>
+                        <div class="form-group  clearfix">
+                            <label for="icondemo">Choose document</label>
+                            <input type="file" id="icondemo" accept=".pdf" />
+
+                        </div>
+
+                    </div>
+
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary btn-block btn-flat" onclick="uploadFiles()">
+                                        <i class="glyphicon glyphicon-upload">Upload</i>
+                                    </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="reset" class="btn btn-warning btn-block btn-flat" value="Reset" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+@section scripts {
+    <script src="~/Scripts/bootstrap-filestyle.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/bootstrap-FileUpload.js"></script>
+    <script>
+
+        var $body = $('body');
+
+        $('#icondemo').filestyle({
+            iconName: 'glyphicon glyphicon-file',
+            buttonText: 'Select File',
+            buttonName: 'btn-primary'
+        });
+
+        function uploadFiles() {
+            var fileName = $("#file-type option:selected").val();
+            if (!fileName) {
+                swal({
+                    title: "Opps!",
+                    text: 'Select file name',
+                    type: "warning"
+                });
+                return false;
+            } else {
+                fileName = fileName.replace(' ', '') + '.pdf';
+                // Create FormData object
+                var files = document.getElementById('icondemo').files;
+                let file = null;
+                if (files.length > 0) {
+                    file = files[0];
+                    fileExtension = file.name.split('.').pop();
+                    fileExtension = fileExtension.toLowerCase();
+                    var fileSize = parseInt(file.size) / 1000;
+                    fileSize = fileSize / 1000;
+                    if (fileSize > 5) {
+                        $('#icondemo').val('');
+                        swal({
+                            title: "Warning!",
+                            text: 'File size should be less than 5 MB.',
+                            type: "warning"
+                        });
+                    }
+                    else if (fileExtension == "pdf") {
+
+                        var fileData = new FormData();
+
+                        fileData.append(fileName, file);
+                        fileData.append('fileName', fileName);
+                        $body.addClass('loading');
+                        $.ajax({
+                            url: '/Home/UploadDocument',
+                            type: "POST",
+                            contentType: false, // Not to set any content header
+                            processData: false, // Not to process data
+                            data: fileData,
+                            success: function (result) {
+                                $body.removeClass("loading");
+                                $('#document-upload').trigger('reset');
+                                swal({
+                                    title: "Saved",
+                                    text: result,
+                                    type: "success"
+                                });
+
+                            },
+                            error: function (err) {
+                                $body.removeClass("loading");
+                                swal({
+                                    title: "Failed",
+                                    text: err.statusText,
+                                    type: "error"
+                                });
+                            }
+                        });
+
+                    } else {
+                        $('#icondemo').val('');
+                        swal({
+                            title: "Warning!",
+                            text: 'Only .pdf file type is allowed.',
+                            type: "warning"
+                        });
+                    }
+
+                }
+            }
+        }
+    </script>
+}
+
+
+
+
